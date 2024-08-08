@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Filter, FilterField } from '@/components/Filter';
 import { LiFiTable } from '@/components/Table';
-import { ILiFiToken, ILiFiTokenApiResponse, ITokenFilters, ITokenSearchParams } from '@/interfaces/IToken';
+import { ILiFiToken, ILiFiTokenApiResponse, ITokenFilters } from '@/interfaces/IToken';
 import { Button, Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { EyeOutlined } from '@ant-design/icons';

@@ -4,14 +4,19 @@ import { Typography } from 'antd';
 import { ETHEREUM_CHAIN_ID, SUPPORTED_CHAINS } from '@/utils/constants';
 import TableSkeleton from '@/components/Utils/skeleton/table';
 import TokensView from './view';
-import { ITokenSearchParams } from '@/interfaces/IToken';
+import { ITokenServerComponentProps } from '@/interfaces/IToken';
 
-export const metadata: Metadata = {
-	title: 'Li.Fi Landing',
-	description: 'Main Page for assessment'
-};
+export async function generateMetadata({ searchParams }: ITokenServerComponentProps): Promise<Metadata> {
+	const chainParam = searchParams?.['chains'];
+	const activeChain = SUPPORTED_CHAINS.find(sC => sC.id === Number(chainParam || ETHEREUM_CHAIN_ID));
 
-export default async function Overview({ searchParams }: ITokenSearchParams) {
+	return {
+		title: `List of tokens for the ${activeChain?.name} chain`,
+		description: `Explore the token list on the ${activeChain?.name} network.`
+	};
+}
+
+export default async function Overview({ searchParams }: ITokenServerComponentProps) {
 	const chainSearchParam = searchParams?.['chains'];
 	const activeChain = SUPPORTED_CHAINS.find(sC => sC.id === Number(chainSearchParam || ETHEREUM_CHAIN_ID));
 

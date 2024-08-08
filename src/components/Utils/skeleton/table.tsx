@@ -13,18 +13,14 @@ export default function TableSkeleton() {
 				<div className={cn(getColor('bg-bg-2'), getColor('border-bg-1'), 'min-w-fullborder shadow-sm rounded-lg')}>
 					<div className={cn('min-w-full divide-y', getColor('divide-bg-bg-2'))}>
 						<div className={getColor('bg-bg-4')}>
-							<div className='flex items-center justify-between px-4 py-2'>
+							<div className='flex items-center'>
 								{columns.map(col => (
-									<Skeleton key={col} active className='w-full h-6' />
+									<Skeleton key={`col_${col}`} active className='w-full h-2' />
 								))}
 							</div>
 						</div>
 						{rows.map(row => (
-							<div key={row} className='flex items-center justify-between px-4 py-2'>
-								{columns.map(col => (
-									<Skeleton key={col} active className='w-full h-6' />
-								))}
-							</div>
+							<Skeleton key={`row_${row}`} active className='w-full h-2' />
 						))}
 					</div>
 				</div>

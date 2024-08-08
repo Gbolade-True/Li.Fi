@@ -1,3 +1,5 @@
+import { ILiFiToken, ILiFiTokenApiResponse } from '@/interfaces/IToken';
+
 export const handleError = (error: any): { data: undefined; error: any } => {
 	if (error instanceof TypeError) {
 		// Handle TypeError specifically
@@ -21,4 +23,15 @@ export const convertInterfaceToObject = <T extends { [key: string]: any }>(arg: 
 	}
 
 	return object;
+};
+
+export const getAllTokenData = (tokenResponse: ILiFiTokenApiResponse): ILiFiToken[] => {
+	if (!tokenResponse.tokens) return [];
+	const tokenIds = Object.keys(tokenResponse.tokens);
+	let finalData: ILiFiToken[] = [];
+	tokenIds.forEach(t => {
+		finalData.push(...tokenResponse.tokens[t]);
+	});
+
+	return finalData;
 };

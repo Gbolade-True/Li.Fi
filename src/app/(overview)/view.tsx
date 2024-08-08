@@ -1,19 +1,20 @@
 import TableSkeleton from '@/components/Utils/skeleton/table';
-import { ILiFiTokenApiResponse, ITokenSearchParams } from '@/interfaces/IToken';
+import { ILiFiTokenApiResponse, ITokenServerComponentProps } from '@/interfaces/IToken';
 import { LIFI_TOKENS_BASE_URL } from '@/utils/constants';
 import { convertInterfaceToObject, handleError } from '@/utils/helpers';
 import { Suspense } from 'react';
 import TokenTable from '../../components/Tokens/table';
 import { ErrorComponent } from '@/components/Utils/error';
 
-async function fetchTokens(
-	queryParams: ITokenSearchParams['searchParams'] | undefined
+export async function fetchTokens(
+	queryParams?: ITokenServerComponentProps['searchParams'] | undefined
 ): Promise<{ data: ILiFiTokenApiResponse | undefined; error: any }> {
 	try {
 		const url = new URL(LIFI_TOKENS_BASE_URL);
 		const params = new URLSearchParams(convertInterfaceToObject(queryParams || {}));
 		url.search = params.toString();
-		const response = await fetch(url, { cache: 'no-store' });
+		// For Incremental Static Regeneration
+		const response = await fetch(url, { next: { revalidate: 30 } });
 		const tokensData: ILiFiTokenApiResponse = await response.json();
 
 		return { data: tokensData, error: undefined };
@@ -22,7 +23,7 @@ async function fetchTokens(
 	}
 }
 
-export default async function TokensView({ searchParams }: ITokenSearchParams) {
+export default async function TokensView({ searchParams }: ITokenServerComponentProps) {
 	const { data, error } = await fetchTokens(searchParams);
 
 	if (error) {

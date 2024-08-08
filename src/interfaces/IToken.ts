@@ -20,7 +20,7 @@ export interface ILiFiTokenApiResponse {
 	};
 }
 
-export interface ITokenSearchParams {
+export interface ITokenServerComponentProps {
 	params?: {
 		chain: string;
 		token: string;
