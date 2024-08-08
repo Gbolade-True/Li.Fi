@@ -963,6 +963,8 @@ export const SUPPORTED_CHAINS_FOR_DROPDOWNS = SUPPORTED_CHAINS.map(sC => ({
 	label: sC.name
 }));
 
+export const ETHEREUM_CHAIN_ID = 1;
+
 // All chain types available in the supported chains are `EVM`
 export const SUPPORTED_CHAINS_TYPES_FOR_DROPDOWNS = [
 	{ value: 'EVM', label: 'EVM' },

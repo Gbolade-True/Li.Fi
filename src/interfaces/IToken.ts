@@ -21,8 +21,12 @@ export interface ILiFiTokenApiResponse {
 }
 
 export interface ITokenSearchParams {
-	params: {
+	params?: {
 		chain: string;
 		token: string;
+	};
+	searchParams?: {
+		chains: string;
+		chainTypes: string;
 	};
 }

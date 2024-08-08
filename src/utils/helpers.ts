@@ -13,3 +13,12 @@ export const handleError = (error: any): { data: undefined; error: any } => {
 		return { data: undefined, error: 'An unexpected error occurred' };
 	}
 };
+
+export const convertInterfaceToObject = <T extends { [key: string]: any }>(arg: T): Record<string, string> => {
+	const object: Record<string, string> = {};
+	for (const [key, value] of Object.entries(arg)) {
+		object[key] = value;
+	}
+
+	return object;
+};

@@ -3,7 +3,7 @@ import { Input, Button, Space, Typography, Select } from 'antd';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { CloseOutlined } from '@ant-design/icons';
 
-type FilterFieldType = 'text' | 'number' | 'select' | 'tag';
+type FilterFieldType = 'text' | 'number' | 'select';
 
 export interface IBaseFilters {
 	pageNumber?: number;
@@ -16,7 +16,7 @@ export type FilterField<F> = {
 	type: FilterFieldType;
 	options?: { value: string | number; label?: string }[];
 	placeholder?: string;
-	defaultValue?: string;
+	defaultValue?: string | number | null;
 	infoText?: string;
 };
 
@@ -29,10 +29,12 @@ export const Filter = <F extends { [key: string]: any }>({ onFilterChange, filte
 	const [filters, setFilters] = useState<F>({} as F);
 
 	const handleFilterChange = (name: keyof F, value: any) => {
-		setFilters(prev => ({
-			...prev,
-			[name]: value
-		}));
+		setFilters(prev => {
+			let new_filters = { ...prev };
+			new_filters[name] = value;
+			onFilterChange(new_filters);
+			return new_filters;
+		});
 	};
 
 	const removeFromFilter = (name: keyof F) => {
@@ -40,10 +42,6 @@ export const Filter = <F extends { [key: string]: any }>({ onFilterChange, filte
 			...prev,
 			[name]: ''
 		}));
-	};
-
-	const handleFilterApply = () => {
-		onFilterChange(filters);
 	};
 
 	return (
@@ -55,29 +53,21 @@ export const Filter = <F extends { [key: string]: any }>({ onFilterChange, filte
 						<Typography>{label}</Typography>
 						{type === 'select' && (
 							<Select
+								id={String(name)}
 								options={options || []}
 								placeholder={placeholder}
-								disabled={!!defaultValue}
-								value={defaultValue || filters?.[name] || ''}
+								value={filters?.[name] || defaultValue || ''}
 								onChange={value => handleFilterChange(name, value)}
 								className='w-[120px] md:w-[250px]'
 							/>
 						)}
-						{type === 'tag' && (
-							<Select
-								mode='tags'
-								placeholder={placeholder}
-								value={filters?.[name]}
-								onChange={value => handleFilterChange(name, value)}
-								options={options}
-								className='w-[200px] md:w-[250px]'
-							/>
-						)}
 						{(type === 'text' || type === 'number') && (
 							<Input
+								id={String(name)}
+								name={String(name)}
 								type={type}
 								placeholder={placeholder}
-								value={filters?.[name]}
+								value={filters?.[name] || defaultValue || ''}
 								onChange={e => handleFilterChange(name, e.target.value)}
 								addonAfter={<CloseOutlined key={name as string} onClick={() => removeFromFilter(name)} />}
 							/>
@@ -85,9 +75,6 @@ export const Filter = <F extends { [key: string]: any }>({ onFilterChange, filte
 					</Space>
 				);
 			})}
-			<Button type='primary' onClick={handleFilterApply}>
-				Apply Filters
-			</Button>
 		</Space>
 	);
 };
