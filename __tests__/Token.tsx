@@ -9,6 +9,14 @@ import { Button } from 'antd';
 import { mapTokenApiResponseToTokenTableData } from '@/utils/helpers';
 import { useRouter } from '../__mocks__/next_navigation';
 import TokenView from '@/app/detail/[chain]/[token]/view';
+import { AppHeader } from '@/components/Navigation/Header';
+
+describe('App renders accurately ', () => {
+	it('renders Header link', () => {
+		render(<AppHeader />);
+		expect(screen.getByText('Li.Fi')).toBeDefined();
+	});
+});
 
 describe('Overview test suite', () => {
 	afterEach(() => {

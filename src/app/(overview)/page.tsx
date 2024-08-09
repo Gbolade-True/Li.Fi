@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 import { Typography } from 'antd';
 import { ETHEREUM_CHAIN_ID, SUPPORTED_CHAINS } from '@/utils/constants';
 import TableSkeleton from '@/components/Utils/skeleton/table';
-import TokensView from './view';
 import { ITokenServerComponentProps } from '@/interfaces/IToken';
+import TokensView from './view';
 
 export async function generateMetadata({ searchParams }: ITokenServerComponentProps): Promise<Metadata> {
 	const chainParam = searchParams?.['chains'];

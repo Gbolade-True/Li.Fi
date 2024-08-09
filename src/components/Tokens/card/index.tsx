@@ -1,11 +1,11 @@
-import { Avatar, Col, Row, Typography } from 'antd';
+import { Avatar, Card, Col, Row, Typography } from 'antd';
 import { ILiFiToken } from '@/interfaces/IToken';
 import cn from 'classnames';
 import { getColor } from '@/styles';
 
 export default function TokenCard({ liFiToken }: { liFiToken: ILiFiToken }) {
 	return (
-		<div className={cn(getColor('bg-bg-1'), 'max-w-4xl m-auto !py-8 !px-4 !rounded-2xl !shadow-md')}>
+		<Card className={cn(getColor('bg-bg-1'), 'max-w-4xl m-auto !py-8 !px-4 !rounded-2xl !shadow-md')}>
 			<Row gutter={16} className='items-center'>
 				<Col span={4}>
 					{liFiToken?.logoURI && <Avatar size={64} src={liFiToken?.logoURI} alt={liFiToken?.symbol} />}
@@ -32,7 +32,7 @@ export default function TokenCard({ liFiToken }: { liFiToken: ILiFiToken }) {
 				</Col>
 				<Col span={12}>
 					<Typography className='!text-lg font-bold'>Price (USD):</Typography>
-					<Typography className='!text-lg !ml-1'>$ {liFiToken?.priceUSD}</Typography>
+					<Typography className={cn('!text-lg !ml-1', getColor('!text-success-1'))}>$ {liFiToken?.priceUSD}</Typography>
 				</Col>
 			</Row>
 			<Row gutter={16} className='mt-4'>
@@ -41,6 +41,6 @@ export default function TokenCard({ liFiToken }: { liFiToken: ILiFiToken }) {
 					<Typography className='!text-lg !ml-1'>{liFiToken?.coinKey}</Typography>
 				</Col>
 			</Row>
-		</div>
+		</Card>
 	);
 }

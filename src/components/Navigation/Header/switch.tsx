@@ -3,7 +3,7 @@ import { Switch } from 'antd';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
-export const HeaderSwitch = () => {
+export default function HeaderSwitch() {
 	const { theme, setTheme } = useTheme();
 	const [mounted, setMounted] = useState(false);
 
@@ -26,4 +26,4 @@ export const HeaderSwitch = () => {
 			unCheckedChildren='Light'
 		/>
 	);
-};
+}

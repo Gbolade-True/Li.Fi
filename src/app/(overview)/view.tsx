@@ -1,10 +1,9 @@
-import TableSkeleton from '@/components/Utils/skeleton/table';
+import dynamic from 'next/dynamic';
 import { ILiFiTokenApiResponse, ITokenServerComponentProps } from '@/interfaces/IToken';
 import { LIFI_TOKENS_BASE_URL } from '@/utils/constants';
 import { convertInterfaceToObject, handleError } from '@/utils/helpers';
-import { Suspense } from 'react';
-import TokenTable from '../../components/Tokens/table';
 import { ErrorComponent } from '@/components/Utils/error';
+const TokenTable = dynamic(() => import('../../components/Tokens/table'));
 
 export async function fetchTokens(
 	queryParams?: ITokenServerComponentProps['searchParams'] | undefined
@@ -28,9 +27,5 @@ export default async function TokensView({ searchParams }: ITokenServerComponent
 	if (error) {
 		return <ErrorComponent message={error.message} />;
 	}
-	return (
-		<Suspense fallback={<TableSkeleton />}>
-			<TokenTable data={data} loading={false} />
-		</Suspense>
-	);
+	return <TokenTable data={data} loading={false} />;
 }

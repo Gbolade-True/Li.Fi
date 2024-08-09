@@ -25,11 +25,11 @@ export default async function TokenDetailPage({ params }: ITokenServerComponentP
 	return (
 		<div className='flex flex-col items-center justify-center h-[80vh]'>
 			<div>
-				<Title className='text-center' level={3}>
+				<Title className='text-center' level={2}>
 					This Token is on the {activeChain ? `${activeChain.name}` : 'Ethereum'} chain
 				</Title>
 				<GoTo />
-				<Suspense fallback={<SkeletonNode active style={{ height: '344px', width: '728px' }} />}>
+				<Suspense fallback={<SkeletonNode active style={{ height: '442px', width: '635px' }} />}>
 					<TokenView params={params} />
 				</Suspense>
 			</div>

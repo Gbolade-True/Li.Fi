@@ -1,7 +1,8 @@
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { Typography } from 'antd';
-import { HeaderSwitch } from './switch';
 import { Header } from 'antd/es/layout/layout';
+const HeaderSwitch = dynamic(() => import('./switch'));
 
 export const AppHeader = () => {
 	return (

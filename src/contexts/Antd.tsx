@@ -19,7 +19,7 @@ export default function AntdProvider({ children }: PropsWithChildren) {
 						fontFamily: "'Montserrat', sans-serif",
 						fontSize: 12
 					},
-					algorithm: theme === 'dark' ? darkAlgorithm : defaultAlgorithm
+					algorithm: theme === 'light' ? defaultAlgorithm : darkAlgorithm
 				}}
 			>
 				{children}

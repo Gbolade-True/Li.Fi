@@ -1,8 +1,9 @@
+import dynamic from 'next/dynamic';
 import { Typography } from 'antd';
 import { ILiFiToken, ITokenServerComponentProps } from '@/interfaces/IToken';
 import { LIFI_TOKEN_BASE_URL } from '@/utils/constants';
 import { convertInterfaceToObject, handleError } from '@/utils/helpers';
-import TokenCard from '@/components/Tokens/card';
+const TokenCard = dynamic(() => import('@/components/Tokens/card'));
 
 async function fetchToken(
 	searchParams: ITokenServerComponentProps['params']
