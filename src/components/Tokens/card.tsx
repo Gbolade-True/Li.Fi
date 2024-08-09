@@ -1,10 +1,8 @@
+import { Avatar, Col, Row, Typography } from 'antd';
 import { ILiFiToken, ITokenServerComponentProps } from '@/interfaces/IToken';
 import { LIFI_TOKEN_BASE_URL } from '@/utils/constants';
-import { convertInterfaceToObject, handleError } from '@/utils/helpers';
-import { Avatar, Card, Col, Row } from 'antd';
-import Title from 'antd/es/typography/Title';
-import Text from 'antd/es/typography/Text';
 import cn from 'classnames';
+import { convertInterfaceToObject, handleError } from '@/utils/helpers';
 import { getColor } from '@/styles';
 
 async function fetchToken(
@@ -28,64 +26,48 @@ export default async function TokenCard({ params }: ITokenServerComponentProps) 
 
 	if (!liFiToken || !!error)
 		return (
-			<Text className='!text-lg' strong>
+			<Typography className='!text-lg font-bold'>
 				Information not available. Please check chain and token information provided and try again.
-			</Text>
+			</Typography>
 		);
 
 	return (
-		<Card className={cn(getColor('bg-bg-1'), 'max-w-4xl m-auto !py-8 !px-4 !rounded-2xl !shadow-md')} bordered={false}>
+		<div className={cn(getColor('bg-bg-1'), 'max-w-4xl m-auto !py-8 !px-4 !rounded-2xl !shadow-md')}>
 			<Row gutter={16} className='items-center'>
 				<Col span={4}>
 					{liFiToken?.logoURI && <Avatar size={64} src={liFiToken?.logoURI} alt={liFiToken?.symbol} />}
 				</Col>
 				<Col span={20}>
-					<Title level={4} className='mb-0'>
-						NAME: {liFiToken?.name}
-					</Title>
-					<Text className='!text-lg !ml-1' type='secondary'>
-						SYMBOL: {liFiToken?.symbol}
-					</Text>
+					<Typography className='mb-0 !text-2xl'>NAME: {liFiToken?.name}</Typography>
+					<Typography className={cn('!text-lg !ml-1', getColor('text-text-3'))}>SYMBOL: {liFiToken?.symbol}</Typography>
 				</Col>
 			</Row>
 			<Row gutter={16} className='mt-4'>
 				<Col span={12}>
-					<Text className='!text-lg' strong>
-						Chain ID:
-					</Text>
-					<Text className='!text-lg !ml-1'>{liFiToken?.chainId}</Text>
+					<Typography className='!text-lg font-bold'>Chain ID:</Typography>
+					<Typography className='!text-lg !ml-1'>{liFiToken?.chainId}</Typography>
 				</Col>
 				<Col span={12}>
-					<Text className='!text-lg' strong>
-						Address:
-					</Text>
-					<Text type='success' className='!text-lg !ml-1'>
-						{liFiToken?.address}
-					</Text>
+					<Typography className='!text-lg font-bold'>Address:</Typography>
+					<Typography className='!text-lg !ml-1'>{liFiToken?.address}</Typography>
 				</Col>
 			</Row>
 			<Row gutter={16} className='mt-4'>
 				<Col span={12}>
-					<Text className='!text-lg' strong>
-						Decimals:
-					</Text>
-					<Text className='!text-lg !ml-1'>{liFiToken?.decimals}</Text>
+					<Typography className='!text-lg font-bold'>Decimals:</Typography>
+					<Typography className='!text-lg !ml-1'>{liFiToken?.decimals}</Typography>
 				</Col>
 				<Col span={12}>
-					<Text className='!text-lg' strong>
-						Price (USD):
-					</Text>
-					<Text className='!text-lg !ml-1'>$ {liFiToken?.priceUSD}</Text>
+					<Typography className='!text-lg font-bold'>Price (USD):</Typography>
+					<Typography className='!text-lg !ml-1'>$ {liFiToken?.priceUSD}</Typography>
 				</Col>
 			</Row>
 			<Row gutter={16} className='mt-4'>
 				<Col span={12}>
-					<Text className='!text-lg' strong>
-						Coin Key:
-					</Text>
-					<Text className='!text-lg !ml-1'>{liFiToken?.coinKey}</Text>
+					<Typography className='!text-lg font-bold'>Coin Key:</Typography>
+					<Typography className='!text-lg !ml-1'>{liFiToken?.coinKey}</Typography>
 				</Col>
 			</Row>
-		</Card>
+		</div>
 	);
 }

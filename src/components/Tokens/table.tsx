@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Filter, FilterField } from '@/components/Filter';
 import { LiFiTable } from '@/components/Table';
-import { ILiFiToken, ILiFiTokenApiResponse, ITokenFilters } from '@/interfaces/IToken';
+import { ILiFiTokenApiResponse, ITokenFilters, ITokenTableData } from '@/interfaces/IToken';
 import { Button, Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import { EyeOutlined } from '@ant-design/icons';
@@ -16,10 +16,7 @@ import {
 	SUPPORTED_CHAINS_FOR_DROPDOWNS,
 	SUPPORTED_CHAINS_TYPES_FOR_DROPDOWNS
 } from '@/utils/constants';
-
-interface ITokenTableData extends Pick<ILiFiToken, 'address' | 'logoURI' | 'name' | 'chainId'> {
-	key: string;
-}
+import { mapTokenApiResponseToTokenTableData } from '@/utils/helpers';
 
 interface TokenTableProps {
 	data: ILiFiTokenApiResponse | undefined;
@@ -41,7 +38,7 @@ export default function TokenTable({ data, loading }: TokenTableProps) {
 			params.set(key, _filters[key as keyof ITokenFilters]);
 		});
 
-		router.replace(`${pathname}?${params.toString()}`);
+		return router.replace(`${pathname}?${params.toString()}`);
 	};
 
 	const chainSearchParam = searchParams.get('chains');
@@ -101,7 +98,7 @@ export default function TokenTable({ data, loading }: TokenTableProps) {
 			render: (_, t) => (
 				<Space size='middle'>
 					<Button
-						icon={<EyeOutlined />}
+						icon={<EyeOutlined title='View' />}
 						onClick={() => router.push(`${pageUrls.tokenDetails}/${t.chainId}/${t.address}`)}
 					/>
 				</Space>
@@ -110,16 +107,7 @@ export default function TokenTable({ data, loading }: TokenTableProps) {
 	];
 
 	const tokenTableData: ITokenTableData[] = useMemo(() => {
-		if (!data || !data.tokens) return [];
-		const tokenId = Object.keys(data.tokens);
-		if (!tokenId || !tokenId.length) return [];
-		return data.tokens[tokenId[0]].map(t => ({
-			key: `${t.chainId}_${t.address}`,
-			chainId: t.chainId,
-			name: t.name,
-			address: t.address,
-			logoURI: t.logoURI
-		}));
+		return mapTokenApiResponseToTokenTableData(data);
 	}, [data]);
 
 	return (

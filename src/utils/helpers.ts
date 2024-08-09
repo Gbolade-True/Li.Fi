@@ -1,4 +1,4 @@
-import { ILiFiToken, ILiFiTokenApiResponse } from '@/interfaces/IToken';
+import { ILiFiToken, ILiFiTokenApiResponse, ITokenTableData } from '@/interfaces/IToken';
 
 export const handleError = (error: any): { data: undefined; error: any } => {
 	if (error instanceof TypeError) {
@@ -34,4 +34,17 @@ export const getAllTokenData = (tokenResponse: ILiFiTokenApiResponse): ILiFiToke
 	});
 
 	return finalData;
+};
+
+export const mapTokenApiResponseToTokenTableData = (data: ILiFiTokenApiResponse | undefined): ITokenTableData[] => {
+	if (!data || !data.tokens) return [];
+	const tokenId = Object.keys(data.tokens);
+	if (!tokenId || !tokenId.length) return [];
+	return data.tokens[tokenId[0]].map(t => ({
+		key: `${t.chainId}_${t.address}`,
+		chainId: t.chainId,
+		name: t.name,
+		address: t.address,
+		logoURI: t.logoURI
+	}));
 };

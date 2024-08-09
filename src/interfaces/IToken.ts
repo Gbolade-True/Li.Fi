@@ -30,3 +30,7 @@ export interface ITokenServerComponentProps {
 		chainTypes: string;
 	};
 }
+
+export interface ITokenTableData extends Pick<ILiFiToken, 'address' | 'logoURI' | 'name' | 'chainId'> {
+	key: string;
+}

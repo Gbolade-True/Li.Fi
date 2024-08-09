@@ -1,45 +1,46 @@
 {
-  "name": "li_fi",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@ant-design/nextjs-registry": "^1.0.1",
-    "antd": "^5.20.0",
-    "classnames": "^2.5.1",
-    "next": "14.2.5",
-    "next-themes": "^0.3.0",
-    "react": "^18",
-    "react-dom": "^18"
-  },
-  "devDependencies": {
-    "@eslint/compat": "^1.1.1",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "@typescript-eslint/eslint-plugin": "^8.0.1",
-    "@typescript-eslint/parser": "^8.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.5",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-prettier": "^5.2.1",
-    "eslint-plugin-react": "^7.35.0",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-tailwindcss": "^3.17.4",
-    "eslint-plugin-unused-imports": "^4.0.1",
-    "husky": "^9.1.4",
-    "postcss": "^8",
-    "prettier": "^3.3.3",
-    "tailwind-scrollbar": "^3.1.0",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5"
-  },
-  "engines": {
-    "node": "20.13.0"
-  }
+	"name": "li_fi",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint",
+		"test": "jest",
+		"test:watch": "jest --watchAll"
+	},
+	"dependencies": {
+		"@ant-design/nextjs-registry": "^1.0.1",
+		"antd": "^5.20.0",
+		"classnames": "^2.5.1",
+		"next": "14.2.5",
+		"next-themes": "^0.3.0",
+		"react": "^18",
+		"react-dom": "^18"
+	},
+	"devDependencies": {
+		"@testing-library/dom": "^10.4.0",
+		"@testing-library/jest-dom": "^6.4.8",
+		"@testing-library/react": "^16.0.0",
+		"@testing-library/user-event": "^14.5.2",
+		"@types/jest": "^29.5.12",
+		"@types/node": "^20",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"eslint": "^8",
+		"eslint-config-next": "^14.2.5",
+		"jest": "^29.7.0",
+		"jest-environment-jsdom": "^29.7.0",
+		"postcss": "^8",
+		"prettier": "^3.3.3",
+		"tailwind-scrollbar": "^3.1.0",
+		"tailwindcss": "^3.4.1",
+		"ts-jest": "^29.2.4",
+		"typescript": "^5"
+	},
+	"engines": {
+		"node": "20.13.0"
+	}
 }
