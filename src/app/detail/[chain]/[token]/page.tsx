@@ -39,7 +39,8 @@ export default async function TokenDetailPage({ params }: ITokenServerComponentP
 
 // For Static Site Generation
 export async function generateStaticParams() {
-	const { data, error } = await fetchTokens();
+	// Fetch tokens for Ethereum Chain only since it is the major chain and to reduce the number of statically generated params
+	const { data, error } = await fetchTokens({ chains: String(ETHEREUM_CHAIN_ID) });
 	if (!data || !!error) return [];
 	const finalData = getAllTokenData(data);
 

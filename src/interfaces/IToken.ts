@@ -27,7 +27,7 @@ export interface ITokenServerComponentProps {
 	};
 	searchParams?: {
 		chains: string;
-		chainTypes: string;
+		chainTypes?: string;
 	};
 }
 
