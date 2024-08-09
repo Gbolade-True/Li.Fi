@@ -1,36 +1,9 @@
 import { Avatar, Col, Row, Typography } from 'antd';
-import { ILiFiToken, ITokenServerComponentProps } from '@/interfaces/IToken';
-import { LIFI_TOKEN_BASE_URL } from '@/utils/constants';
+import { ILiFiToken } from '@/interfaces/IToken';
 import cn from 'classnames';
-import { convertInterfaceToObject, handleError } from '@/utils/helpers';
 import { getColor } from '@/styles';
 
-async function fetchToken(
-	searchParams: ITokenServerComponentProps['params']
-): Promise<{ data: ILiFiToken | undefined; error: any }> {
-	try {
-		const url = new URL(LIFI_TOKEN_BASE_URL);
-		const params = new URLSearchParams(convertInterfaceToObject(searchParams || {}));
-		url.search = params.toString();
-		const response = await fetch(url);
-		const tokenData: ILiFiToken = await response.json();
-
-		return { data: tokenData, error: undefined };
-	} catch (error) {
-		return handleError(error);
-	}
-}
-
-export default async function TokenCard({ params }: ITokenServerComponentProps) {
-	const { data: liFiToken, error } = await fetchToken(params);
-
-	if (!liFiToken || !!error)
-		return (
-			<Typography className='!text-lg font-bold'>
-				Information not available. Please check chain and token information provided and try again.
-			</Typography>
-		);
-
+export default function TokenCard({ liFiToken }: { liFiToken: ILiFiToken }) {
 	return (
 		<div className={cn(getColor('bg-bg-1'), 'max-w-4xl m-auto !py-8 !px-4 !rounded-2xl !shadow-md')}>
 			<Row gutter={16} className='items-center'>

@@ -79,7 +79,15 @@ export default function TokenTable({ data, loading }: TokenTableProps) {
 			dataIndex: 'logoURI',
 			key: 'logo',
 			render: (_, t) => (
-				<Image src={t.logoURI || '/fallback.jpg'} width='40' height='40' alt='token logo' className='rounded-full' />
+				<Image
+					src={t.logoURI || '/fallback.jpg'}
+					width='40'
+					height='40'
+					alt='token logo'
+					className='rounded-full'
+					placeholder='blur'
+					blurDataURL='/blur-image.jpg'
+				/>
 			)
 		},
 		{

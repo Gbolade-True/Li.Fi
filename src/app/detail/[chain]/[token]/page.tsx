@@ -1,13 +1,13 @@
 import { Suspense } from 'react';
 import { GoTo } from '@/components/Utils/go_to';
 import SkeletonNode from 'antd/es/skeleton/Node';
-import TokenCard from '../../../../components/Tokens/card';
 import { ITokenServerComponentProps } from '@/interfaces/IToken';
 import { fetchTokens } from '@/app/(overview)/view';
 import { getAllTokenData } from '@/utils/helpers';
 import { ETHEREUM_CHAIN_ID, SUPPORTED_CHAINS } from '@/utils/constants';
 import Title from 'antd/es/typography/Title';
 import { Metadata } from 'next';
+import TokenView from './view';
 
 export async function generateMetadata({ params }: ITokenServerComponentProps): Promise<Metadata> {
 	const chainParam = params?.['chain'];
@@ -30,7 +30,7 @@ export default async function TokenDetailPage({ params }: ITokenServerComponentP
 				</Title>
 				<GoTo />
 				<Suspense fallback={<SkeletonNode active style={{ height: '344px', width: '728px' }} />}>
-					<TokenCard params={params} />
+					<TokenView params={params} />
 				</Suspense>
 			</div>
 		</div>

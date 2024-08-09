@@ -13,8 +13,7 @@ export async function fetchTokens(
 		const url = new URL(LIFI_TOKENS_BASE_URL);
 		const params = new URLSearchParams(convertInterfaceToObject(queryParams || {}));
 		url.search = params.toString();
-		// For Incremental Static Regeneration
-		const response = await fetch(url, { next: { revalidate: 30 } });
+		const response = await fetch(url, { cache: 'no-cache' });
 		const tokensData: ILiFiTokenApiResponse = await response.json();
 
 		return { data: tokensData, error: undefined };

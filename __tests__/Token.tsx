@@ -8,7 +8,7 @@ import { ITokenTableData } from '@/interfaces/IToken';
 import { Button } from 'antd';
 import { mapTokenApiResponseToTokenTableData } from '@/utils/helpers';
 import { useRouter } from '../__mocks__/next_navigation';
-import TokenCard from '@/components/Tokens/card';
+import TokenView from '@/app/detail/[chain]/[token]/view';
 
 describe('Overview test suite', () => {
 	afterEach(() => {
@@ -81,7 +81,7 @@ describe('Token Detail Page test suite', () => {
 	it('Fetches and render a token accurately with url params', async () => {
 		const TOKEN = TOKENS_API_RESPONSE_MOCK.tokens['1'][0];
 		global.fetch = jest.fn().mockResolvedValue({ json: () => TOKEN });
-		render(await TokenCard({ params: { chain: String(TOKEN.chainId), token: TOKEN.address } }));
+		render(await TokenView({ params: { chain: String(TOKEN.chainId), token: TOKEN.address } }));
 
 		await waitFor(() => {
 			expect(screen.getByText('ETH')).toBeDefined();
