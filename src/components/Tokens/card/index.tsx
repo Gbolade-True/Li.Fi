@@ -1,8 +1,9 @@
-import { Avatar, Card, Col, Row, Typography } from 'antd';
+import { Card, Col, Row, Typography } from 'antd';
 import { ILiFiToken } from '@/interfaces/IToken';
 import cn from 'classnames';
 import { getColor } from '@/styles';
 import TokenFavorite from '../favourite';
+import Image from 'next/image';
 
 export default function TokenCard({ liFiToken }: { liFiToken: ILiFiToken }) {
 	return (
@@ -12,7 +13,17 @@ export default function TokenCard({ liFiToken }: { liFiToken: ILiFiToken }) {
 			</div>
 			<Row gutter={16} className='items-center'>
 				<Col span={4}>
-					{liFiToken?.logoURI && <Avatar size={64} src={liFiToken?.logoURI} alt={liFiToken?.symbol} />}
+					{liFiToken?.logoURI && (
+						<Image
+							className='rounded-full'
+							height={64}
+							width={64}
+							src={liFiToken?.logoURI}
+							alt={liFiToken?.symbol}
+							placeholder='blur'
+							blurDataURL='/blur-image.jpg'
+						/>
+					)}
 				</Col>
 				<Col span={20}>
 					<Typography className='mb-0 !text-2xl'>NAME: {liFiToken?.name}</Typography>
