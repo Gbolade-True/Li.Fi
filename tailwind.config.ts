@@ -36,6 +36,16 @@ const config: Config = {
 			fontFamily: {
 				montserrat: ["'Montserrat', sans-serif"]
 			},
+			keyframes: {
+				scaleUp: {
+					'0%': { transform: 'scale(1)' },
+					'50%': { transform: 'scale(1.2)' },
+					'100%': { transform: 'scale(1)' }
+				}
+			},
+			animation: {
+				scaleUp: 'scaleUp 0.3s ease-in-out'
+			},
 			colors: {
 				primary: {
 					default: '#0C76D4',

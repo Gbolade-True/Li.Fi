@@ -29,12 +29,10 @@ export const Filter = <F extends { [key: string]: any }>({ onFilterChange, filte
 	const [filters, setFilters] = useState<F>({} as F);
 
 	const handleFilterChange = (name: keyof F, value: any) => {
-		setFilters(prev => {
-			let new_filters = { ...prev };
-			new_filters[name] = value;
-			onFilterChange(new_filters);
-			return new_filters;
-		});
+		let new_filters = { ...filters };
+		new_filters[name] = value;
+		onFilterChange(new_filters);
+		setFilters(new_filters);
 	};
 
 	const removeFromFilter = (name: keyof F) => {

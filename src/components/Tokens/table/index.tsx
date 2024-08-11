@@ -17,6 +17,8 @@ import {
 	SUPPORTED_CHAINS_TYPES_FOR_DROPDOWNS
 } from '@/utils/constants';
 import { mapTokenApiResponseToTokenTableData } from '@/utils/helpers';
+import TokenFavorite from '../favourite';
+import FavoriteTokenTable from './favorites';
 
 interface TokenTableProps {
 	data: ILiFiTokenApiResponse | undefined;
@@ -109,6 +111,7 @@ export default function TokenTable({ data, loading }: TokenTableProps) {
 						icon={<EyeOutlined title='View' />}
 						onClick={() => router.push(`${pageUrls.tokenDetails}/${t.chainId}/${t.address}`)}
 					/>
+					<TokenFavorite chainId={t.chainId} token={t} />
 				</Space>
 			)
 		}
@@ -120,7 +123,10 @@ export default function TokenTable({ data, loading }: TokenTableProps) {
 
 	return (
 		<Space direction='vertical' className='w-full'>
-			<Filter<ITokenFilters> filterFields={filterFields} onFilterChange={onFilterChange} />
+			<div className='flex items-end justify-between gap-4'>
+				<Filter<ITokenFilters> filterFields={filterFields} onFilterChange={onFilterChange} />
+				<FavoriteTokenTable key='TokenFavoriteTable' />
+			</div>
 			<LiFiTable<ITokenTableData>
 				data={tokenTableData}
 				columns={columns}

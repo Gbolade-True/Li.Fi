@@ -9,6 +9,8 @@ import { Content, Footer } from 'antd/es/layout/layout';
 import { Layout } from 'antd';
 import './globals.css';
 import 'antd/dist/reset.css';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const montserrat = Montserrat({ subsets: ['latin'], weight: '400' });
 
@@ -38,6 +40,7 @@ export default function RootLayout({
 			>
 				<Providers>
 					<Layout className='min-h-screen !max-w-[1720px] !mx-auto' style={{ minHeight: '100vh' }}>
+						<ToastContainer />
 						<AppHeader />
 						<Content className={cn('')}>{children}</Content>
 						<Footer style={{ textAlign: 'center' }}>Li.Fi ©2024</Footer>
