@@ -14,6 +14,7 @@ jest.mock('antd', () => {
 		Card: jest.fn(({ children, ...props }: any) => <div {...props}>{children}</div>),
 		Layout: jest.fn(({ children }: any) => <div>{children}</div>),
 		Header: jest.fn(({ children }: any) => <div>{children}</div>),
+		Drawer: jest.fn(({ children }: any) => <div>{children}</div>),
 		Avatar: jest.fn((props: any) => <div {...props} />),
 		Title: jest.fn(({ children }: any) => <div>{children}</div>),
 		Text: jest.fn(({ children }: any) => <div>{children}</div>),

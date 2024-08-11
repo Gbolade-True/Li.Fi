@@ -970,3 +970,6 @@ export const SUPPORTED_CHAINS_TYPES_FOR_DROPDOWNS = [
 	{ value: 'EVM', label: 'EVM' },
 	{ value: 'SVM', label: 'SVM' }
 ];
+
+export const TOKEN_FAVORITES_LOCAL_STORAGE_KEY = 'token_favorites';
+export const FROM_FAVORITES = 'fromFavorites';

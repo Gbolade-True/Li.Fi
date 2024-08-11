@@ -1,10 +1,11 @@
 import { Suspense } from 'react';
+import { headers } from 'next/headers';
 import { GoTo } from '@/components/Utils/go_to';
 import SkeletonNode from 'antd/es/skeleton/Node';
 import { ITokenServerComponentProps } from '@/interfaces/IToken';
 import { fetchTokens } from '@/app/(overview)/view';
 import { getAllTokenData } from '@/utils/helpers';
-import { ETHEREUM_CHAIN_ID, SUPPORTED_CHAINS } from '@/utils/constants';
+import { ETHEREUM_CHAIN_ID, FROM_FAVORITES, SUPPORTED_CHAINS } from '@/utils/constants';
 import Title from 'antd/es/typography/Title';
 import { Metadata } from 'next';
 import TokenView from './view';
@@ -19,16 +20,20 @@ export async function generateMetadata({ params }: ITokenServerComponentProps): 
 	};
 }
 
-export default async function TokenDetailPage({ params }: ITokenServerComponentProps) {
+export default async function TokenDetailPage({ params, searchParams }: ITokenServerComponentProps) {
 	const chainParam = params?.['chain'];
 	const activeChain = SUPPORTED_CHAINS.find(sC => sC.id === Number(chainParam || ETHEREUM_CHAIN_ID));
+	const headersList = headers();
+	const referer = headersList.get('referer');
+	const fromFavourites = searchParams?.[FROM_FAVORITES];
+	console.log(referer, fromFavourites, 'referer');
 	return (
 		<div className='flex flex-col items-center justify-center h-[80vh]'>
 			<div>
 				<Title className='text-center' level={2}>
 					This Token is on the {activeChain ? `${activeChain.name}` : 'Ethereum'} chain
 				</Title>
-				<GoTo />
+				<GoTo referer={referer} searchParams={fromFavourites ? { [FROM_FAVORITES]: fromFavourites } : undefined} />
 				<Suspense fallback={<SkeletonNode active style={{ height: '442px', width: '635px' }} />}>
 					<TokenView params={params} />
 				</Suspense>

@@ -28,9 +28,23 @@ export interface ITokenServerComponentProps {
 	searchParams?: {
 		chains: string;
 		chainTypes?: string;
+		[key: string]: any;
 	};
 }
 
-export interface ITokenTableData extends Pick<ILiFiToken, 'address' | 'logoURI' | 'name' | 'chainId'> {
+export type MainTokenProps = Pick<ILiFiToken, 'address' | 'logoURI' | 'name' | 'chainId'>;
+export interface ITokenTableData extends MainTokenProps {
 	key: string;
 }
+
+export interface IFavoritedTokens {
+	[key: string]: MainTokenProps[];
+}
+
+export type ToggleFavoriteTokenProps = MainTokenProps & {
+	prevState: boolean;
+};
+
+export type AddRemoveFavoriteTokens = MainTokenProps & {
+	favoritedTokens: IFavoritedTokens | undefined;
+};

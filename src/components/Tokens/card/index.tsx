@@ -2,10 +2,14 @@ import { Avatar, Card, Col, Row, Typography } from 'antd';
 import { ILiFiToken } from '@/interfaces/IToken';
 import cn from 'classnames';
 import { getColor } from '@/styles';
+import TokenFavorite from '../favourite';
 
 export default function TokenCard({ liFiToken }: { liFiToken: ILiFiToken }) {
 	return (
-		<Card className={cn(getColor('bg-bg-1'), 'max-w-4xl m-auto !py-8 !px-4 !rounded-2xl !shadow-md')}>
+		<Card className={cn(getColor('bg-bg-1'), 'max-w-4xl m-auto !py-8 !px-4 !rounded-2xl !shadow-md relative')}>
+			<div className='absolute top-4 right-4 w-max'>
+				<TokenFavorite token={liFiToken} chainId={liFiToken.chainId} />
+			</div>
 			<Row gutter={16} className='items-center'>
 				<Col span={4}>
 					{liFiToken?.logoURI && <Avatar size={64} src={liFiToken?.logoURI} alt={liFiToken?.symbol} />}
