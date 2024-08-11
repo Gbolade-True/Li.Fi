@@ -6,21 +6,47 @@ import { ITokenTableData } from '@/interfaces/IToken';
 import { Button, Drawer, Space } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import Image from 'next/image';
-import { getTokenTableDataFromFavorites } from '@/utils/helpers';
+import { findTokenSearchInTokenTableData, getTokenTableDataFromFavorites } from '@/utils/helpers';
 import TokenFavorite from '../favourite';
 import { useFavorite } from '@/contexts/Favorite';
 import { HeartFilled, EyeOutlined } from '@ant-design/icons';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { FROM_FAVORITES, pageUrls } from '@/utils/constants';
+import { Filter, FilterField } from '@/components/Filter';
+
+type FavoriteTokenTableFilters = { search: string };
 
 export default function FavoriteTokenTable() {
 	const { favoritedTokens } = useFavorite();
 	const [pageNumber, setPageNumber] = useState(1);
 	const [showFavorites, setShowFavorites] = useState(false);
 	const [pageSize, setPageSize] = useState(10);
+	const [tokenTableData, setTokenTableData] = useState<ITokenTableData[]>([]);
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
+
+	const allTableData: ITokenTableData[] = useMemo(() => {
+		return getTokenTableDataFromFavorites(favoritedTokens);
+	}, [favoritedTokens]);
+
+	useEffect(() => {
+		setTokenTableData(allTableData);
+	}, [allTableData]);
+
+	const onFilterChange = (_filters: FavoriteTokenTableFilters) => {
+		if (!_filters) return;
+		setTokenTableData(findTokenSearchInTokenTableData(allTableData, tokenTableData, _filters.search));
+	};
+
+	const filterFields: FilterField<FavoriteTokenTableFilters>[] = [
+		{
+			name: 'search',
+			label: 'Search for token',
+			type: 'text',
+			placeholder: 'Search for token in favorites'
+		}
+	];
 
 	const columns: ColumnsType<ITokenTableData> = [
 		{
@@ -82,10 +108,6 @@ export default function FavoriteTokenTable() {
 		router.replace(`${pathname}?${params.toString()}`);
 	}, [fromFavorites, pathname, router, searchParams]);
 
-	const tokenTableData: ITokenTableData[] = useMemo(() => {
-		return getTokenTableDataFromFavorites(favoritedTokens);
-	}, [favoritedTokens]);
-
 	return (
 		<div>
 			<Button icon={<HeartFilled />} type='dashed' onClick={() => setShowFavorites(true)}>
@@ -101,16 +123,19 @@ export default function FavoriteTokenTable() {
 					width='60vw'
 					className='!min-w-[60vw]'
 				>
-					<LiFiTable<ITokenTableData>
-						data={tokenTableData}
-						columns={columns}
-						total={tokenTableData.length}
-						pageSize={pageSize}
-						onPaginationChange={(page, pageSize) => {
-							setPageNumber(page);
-							setPageSize(pageSize);
-						}}
-					/>
+					<>
+						<Filter<FavoriteTokenTableFilters> filterFields={filterFields} onFilterChange={onFilterChange} />
+						<LiFiTable<ITokenTableData>
+							data={tokenTableData}
+							columns={columns}
+							total={tokenTableData.length}
+							pageSize={pageSize}
+							onPaginationChange={(page, pageSize) => {
+								setPageNumber(page);
+								setPageSize(pageSize);
+							}}
+						/>
+					</>
 				</Drawer>
 			) : null}
 		</div>
