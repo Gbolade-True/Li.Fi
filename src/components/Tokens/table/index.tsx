@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Filter, FilterField } from '@/components/Filter';
 import { LiFiTable } from '@/components/Table';
@@ -16,9 +16,9 @@ import {
 	SUPPORTED_CHAINS_FOR_DROPDOWNS,
 	SUPPORTED_CHAINS_TYPES_FOR_DROPDOWNS
 } from '@/utils/constants';
-import { mapTokenApiResponseToTokenTableData } from '@/utils/helpers';
 import TokenFavorite from '../favourite';
 import FavoriteTokenTable from './favorites';
+import { findTokenSearchInTokenTableData, isObjectFalsy, mapTokenApiResponseToTokenTableData } from '@/utils/helpers';
 
 interface TokenTableProps {
 	data: ILiFiTokenApiResponse | undefined;
@@ -27,17 +27,31 @@ interface TokenTableProps {
 
 export default function TokenTable({ data, loading }: TokenTableProps) {
 	const [, setPageNumber] = useState(1);
+	const [allTableData, setAllTableData] = useState<ITokenTableData[]>([]);
+	const [tokenTableData, setTokenTableData] = useState<ITokenTableData[]>([]);
 	const [pageSize, setPageSize] = useState(10);
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 	const router = useRouter();
 
+	useEffect(() => {
+		setTokenTableData(mapTokenApiResponseToTokenTableData(data));
+		setAllTableData(mapTokenApiResponseToTokenTableData(data));
+	}, [data]);
+
 	const onFilterChange = (_filters: ITokenFilters) => {
 		if (!_filters) return;
+		const { search, ...otherFilters } = _filters;
+
+		if ('search' in _filters) {
+			setTokenTableData(findTokenSearchInTokenTableData(allTableData, tokenTableData, search));
+		}
+		if (isObjectFalsy(otherFilters)) return;
+
 		const params = new URLSearchParams(searchParams);
 
-		Object.keys(_filters).forEach(key => {
-			params.set(key, _filters[key as keyof ITokenFilters]);
+		Object.keys(otherFilters).forEach(key => {
+			params.set(key, otherFilters[key as keyof Pick<ITokenFilters, 'chains' | 'chainTypes'>]);
 		});
 
 		return router.replace(`${pathname}?${params.toString()}`);
@@ -72,6 +86,12 @@ export default function TokenTable({ data, loading }: TokenTableProps) {
 			options: SUPPORTED_CHAINS_TYPES_FOR_DROPDOWNS,
 			placeholder: 'Chain Type e.g EVM, SVM',
 			defaultValue: defaultChainTypesSearchParam?.value
+		},
+		{
+			name: 'search',
+			label: 'Search for token',
+			type: 'text',
+			placeholder: 'Search for token in chain'
 		}
 	];
 
@@ -116,10 +136,6 @@ export default function TokenTable({ data, loading }: TokenTableProps) {
 			)
 		}
 	];
-
-	const tokenTableData: ITokenTableData[] = useMemo(() => {
-		return mapTokenApiResponseToTokenTableData(data);
-	}, [data]);
 
 	return (
 		<Space direction='vertical' className='w-full'>
