@@ -27,17 +27,19 @@ interface TokenTableProps {
 
 export default function TokenTable({ data, loading }: TokenTableProps) {
 	const [, setPageNumber] = useState(1);
-	const [allTableData, setAllTableData] = useState<ITokenTableData[]>([]);
 	const [tokenTableData, setTokenTableData] = useState<ITokenTableData[]>([]);
 	const [pageSize, setPageSize] = useState(10);
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
 	const router = useRouter();
 
-	useEffect(() => {
-		setTokenTableData(mapTokenApiResponseToTokenTableData(data));
-		setAllTableData(mapTokenApiResponseToTokenTableData(data));
+	const allTableData: ITokenTableData[] = useMemo(() => {
+		return mapTokenApiResponseToTokenTableData(data);
 	}, [data]);
+
+	useEffect(() => {
+		setTokenTableData(allTableData);
+	}, [allTableData]);
 
 	const onFilterChange = (_filters: ITokenFilters) => {
 		if (!_filters) return;
