@@ -26,7 +26,7 @@ export default async function TokenDetailPage({ params, searchParams }: ITokenSe
 	const headersList = headers();
 	const referer = headersList.get('referer');
 	const fromFavourites = searchParams?.[FROM_FAVORITES];
-	console.log(referer, fromFavourites, 'referer');
+
 	return (
 		<div className='flex flex-col items-center justify-center h-[80vh]'>
 			<div>
