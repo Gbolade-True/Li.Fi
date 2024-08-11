@@ -25,28 +25,26 @@ interface FilterProps<F> {
 	filterFields: FilterField<F>[];
 }
 
-export const Filter = <F extends { [key: string]: any }>({ onFilterChange, filterFields }: FilterProps<F>) => {
+export const Filter = <F extends { [key: string]: any }>({ onFilterChange, filterFields = [] }: FilterProps<F>) => {
 	const [filters, setFilters] = useState<F>({} as F);
 
-	const handleFilterChange = (name: keyof F, value: any) => {
-		setFilters(prev => {
-			let new_filters = { ...prev };
-			new_filters[name] = value;
-			onFilterChange(new_filters);
-			return new_filters;
-		});
-	};
-
-	const removeFromFilter = (name: keyof F) => {
-		setFilters(prev => ({
-			...prev,
-			[name]: ''
-		}));
+	const handleFilterChange = (name: keyof F, type: FilterFieldType, value: any) => {
+		let new_filters = { ...filters };
+		if (type === 'select') {
+			filterFields.forEach(f => {
+				if (f.type !== 'select') {
+					delete new_filters[f.name];
+				}
+			});
+		}
+		new_filters[name] = value;
+		onFilterChange(new_filters);
+		setFilters(new_filters);
 	};
 
 	return (
 		<Space wrap className='w-full' align='end'>
-			{filterFields?.map(fI => {
+			{filterFields.map(fI => {
 				const { name, label, type, options, defaultValue, placeholder } = fI;
 				return (
 					<Space key={name as string} direction='vertical' className='w-full'>
@@ -57,7 +55,7 @@ export const Filter = <F extends { [key: string]: any }>({ onFilterChange, filte
 								options={options || []}
 								placeholder={placeholder}
 								value={filters?.[name] || defaultValue || ''}
-								onChange={value => handleFilterChange(name, value)}
+								onChange={value => handleFilterChange(name, type, value)}
 								className='w-[120px] md:w-[250px]'
 							/>
 						)}
@@ -68,8 +66,9 @@ export const Filter = <F extends { [key: string]: any }>({ onFilterChange, filte
 								type={type}
 								placeholder={placeholder}
 								value={filters?.[name] || defaultValue || ''}
-								onChange={e => handleFilterChange(name, e.target.value)}
-								addonAfter={<CloseOutlined key={name as string} onClick={() => removeFromFilter(name)} />}
+								onChange={e => handleFilterChange(name, type, e.target.value)}
+								addonAfter={<CloseOutlined key={name as string} onClick={() => handleFilterChange(name, type, '')} />}
+								className='w-[120px] md:!w-[250px]'
 							/>
 						)}
 					</Space>

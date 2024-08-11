@@ -1,5 +1,13 @@
 import { ILiFiToken, ILiFiTokenApiResponse, ITokenTableData } from '@/interfaces/IToken';
 
+export const isObjectFalsy = (object: object | undefined | null) => {
+	if (!object) return true;
+	if (Object.values(object).every(value => !value)) {
+		return true;
+	}
+	return Object.keys(object).length === 0;
+};
+
 export const handleError = (error: any): { data: undefined; error: any } => {
 	if (error instanceof TypeError) {
 		// Handle TypeError specifically
@@ -47,4 +55,15 @@ export const mapTokenApiResponseToTokenTableData = (data: ILiFiTokenApiResponse 
 		address: t.address,
 		logoURI: t.logoURI
 	}));
+};
+
+export const findTokenSearchInTokenTableData = (
+	allData: ITokenTableData[],
+	tableData: ITokenTableData[],
+	tokenSearch: string | undefined
+): ITokenTableData[] => {
+	if (!tokenSearch) return allData || [];
+	const lowercasedSearchInput = tokenSearch.toLowerCase();
+
+	return tableData.filter(data => data.name.toLowerCase().includes(lowercasedSearchInput));
 };

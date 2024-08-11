@@ -12,6 +12,7 @@ export interface ILiFiToken {
 export interface ITokenFilters {
 	chains: string;
 	chainTypes: string;
+	search?: string;
 }
 
 export interface ILiFiTokenApiResponse {
