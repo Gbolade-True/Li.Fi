@@ -1,3 +1,18 @@
+# Token Information Website - Favoriting Feature
+
+This branch extends the `main` branch, enhancing the Token Information Website by adding a favoriting feature. Users can now add tokens to their favorites, view their favorited tokens, and remove them from the favorites list. The state of favorited tokens is persisted using local storage.
+
+## Features
+
+- **Favorite Tokens:** Allows users to add tokens to a favorites list and view them separately.
+- **Local Storage Persistence:** Favorited tokens are stored in local storage, ensuring persistence across sessions.
+- **Optimistic UI Updates:** The UI reflects favoriting actions immediately for a smooth user experience.
+- **Context API:** Manages state related to favorited tokens using React's Context API.
+
+## Tests
+
+- Tests were richly enhanced to cover all use cases for the user favoriting feature and helper functions used in the application.
+
 # Token Information Website
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app). It provides an overview of tokens, including detailed information on each token. The app fetches token data from an API, displays it on the overview page, and allows users to view more detailed information on a separate detail page.
@@ -21,7 +36,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 4. Install dependencies: `yarn install`
 
 ## Running the App
+
 For actual user experience, we run the app in production mode. This will also show the SSG logic implemented in the build console
+
 1. Build the project: `yarn build`
 
 2. Start the application: `yarn start`
@@ -29,6 +46,7 @@ For actual user experience, we run the app in production mode. This will also sh
 3. Open your browser and navigate to: `http://localhost:3000`
 
 ## Run Tests
+
 Run the test suite with the `yarn test` command.
 _If you run into any errors in the console when you run `yarn test`, please remove `node_modules` and `yarn.lock` and run `yarn install` again_
 
