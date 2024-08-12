@@ -10,7 +10,8 @@ import {
 	addTokenToFavorites,
 	removeTokenFromFavorites,
 	mapMainTokenPropsToTableData,
-	getTokenTableDataFromFavorites
+	getTokenTableDataFromFavorites,
+	findTokenSearchInTokenTableData
 } from '@/utils/helpers';
 import { FAVORITE_TOKENS_MOCK, TOKEN_TABLE_DATA_MOCK, TOKENS_API_RESPONSE_MOCK } from '../__mocks__/tokens';
 
@@ -103,5 +104,37 @@ describe('Helper functions', () => {
 		});
 		expect(result).toHaveLength(1);
 		expect(result[0].name).toBe('Token1');
+	});
+});
+
+describe('findTokenSearchInTokenTableData helper function', () => {
+	it('should return all data when tokenSearch is undefined', () => {
+		const result = findTokenSearchInTokenTableData(TOKEN_TABLE_DATA_MOCK, undefined);
+		expect(result).toEqual(TOKEN_TABLE_DATA_MOCK);
+	});
+
+	it('should return all data when tokenSearch is an empty string', () => {
+		const result = findTokenSearchInTokenTableData(TOKEN_TABLE_DATA_MOCK, '');
+		expect(result).toEqual(TOKEN_TABLE_DATA_MOCK);
+	});
+
+	it('should return filtered data that matches the search input', () => {
+		const result = findTokenSearchInTokenTableData(TOKEN_TABLE_DATA_MOCK, 'Token1');
+		expect(result).toEqual([TOKEN_TABLE_DATA_MOCK[0]]);
+	});
+
+	it('should return filtered data that matches the search input, case-insensitive', () => {
+		const result = findTokenSearchInTokenTableData(TOKEN_TABLE_DATA_MOCK, 'token2');
+		expect(result).toEqual([TOKEN_TABLE_DATA_MOCK[1]]);
+	});
+
+	it('should return an empty array if no matches are found', () => {
+		const result = findTokenSearchInTokenTableData(TOKEN_TABLE_DATA_MOCK, 'TokenX');
+		expect(result).toEqual([]);
+	});
+
+	it('should return an empty array if allData is empty', () => {
+		const result = findTokenSearchInTokenTableData([], 'TokenA');
+		expect(result).toEqual([]);
 	});
 });
