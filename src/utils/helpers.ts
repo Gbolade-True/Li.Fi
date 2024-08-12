@@ -59,11 +59,10 @@ export const mapTokenApiResponseToTokenTableData = (data: ILiFiTokenApiResponse 
 
 export const findTokenSearchInTokenTableData = (
 	allData: ITokenTableData[],
-	tableData: ITokenTableData[],
 	tokenSearch: string | undefined
 ): ITokenTableData[] => {
 	if (!tokenSearch) return allData || [];
 	const lowercasedSearchInput = tokenSearch.toLowerCase();
 
-	return tableData.filter(data => data.name.toLowerCase().includes(lowercasedSearchInput));
+	return allData.filter(data => data.name.toLowerCase().includes(lowercasedSearchInput));
 };
