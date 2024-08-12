@@ -15,8 +15,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 1. Clone the repository: `git clone <repository-url>`
 
 2. Navigate to the project directory: `cd <project-directory>`
+
+3. For version consistency, please run `nvm use 20.13.0` before running any yarn command. The node engine was set in the package.json. You'll need a node version manager on your machine to do this.
   
-3. Install dependencies: `yarn install`
+4. Install dependencies: `yarn install`
 
 ## Running the App
 For actual user experience, we run the app in production mode. This will also show the SSG logic implemented in the build console
