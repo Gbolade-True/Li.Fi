@@ -46,7 +46,7 @@ export default function TokenTable({ data, loading }: TokenTableProps) {
 		const { search, ...otherFilters } = _filters;
 
 		if ('search' in _filters) {
-			setTokenTableData(findTokenSearchInTokenTableData(allTableData, tokenTableData, search));
+			setTokenTableData(findTokenSearchInTokenTableData(allTableData, search));
 		}
 		if (isObjectFalsy(otherFilters)) return;
 

@@ -36,7 +36,7 @@ export default function FavoriteTokenTable() {
 
 	const onFilterChange = (_filters: FavoriteTokenTableFilters) => {
 		if (!_filters) return;
-		setTokenTableData(findTokenSearchInTokenTableData(allTableData, tokenTableData, _filters.search));
+		setTokenTableData(findTokenSearchInTokenTableData(allTableData, _filters.search));
 	};
 
 	const filterFields: FilterField<FavoriteTokenTableFilters>[] = [
